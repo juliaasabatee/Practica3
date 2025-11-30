@@ -20,4 +20,10 @@ public class Estudiant extends Usuari{
     public void setAnyInici(int anyInici) {
         this.anyInici = anyInici;
     }
+
+    @Override
+    public String toString() {
+        return "Estudiant (Alias: " + alias + ", Correu: " + correuInici + "@estudiants.urv.cat, Ensenyament: " + ensenyament + ", Any Inici: " + anyInici + ")";
+    }
 }
+
