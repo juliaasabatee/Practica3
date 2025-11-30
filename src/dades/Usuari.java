@@ -2,8 +2,8 @@ package dades;
 
 public abstract class Usuari {
 
-    private String alias;
-    private String correuInici;
+    protected String alias;
+    protected String correuInici;
 
     public Usuari(String alias, String correuInici) {
         this.alias = alias;

@@ -9,7 +9,6 @@ public class ActivitatPeriodica extends Activitat{
     private double preu;
     private String nomCentre;
     private String ciutat;
-
     public ActivitatPeriodica(String nom, String diaSetmana, String horari, String dataInicial, int numSetmanes, int limitPlaces, double preu, String nomCentre, String ciutat) {
         super(nom);
         this.diaSetmana = diaSetmana;
@@ -21,7 +20,6 @@ public class ActivitatPeriodica extends Activitat{
         this.nomCentre = nomCentre;
         this.ciutat = ciutat;
     }
-
     public String getDiaSetmana() {
         return this.diaSetmana;
     }
@@ -46,10 +44,9 @@ public class ActivitatPeriodica extends Activitat{
     public String getCiutat() {
         return this.ciutat;
     }
-
     @Override
     public String toString() {
         return "ActivitatPeriodica (Nom: " + super.getNom() + ", Dia: " + diaSetmana + ", Horari: " + horari + ", Inici: " + dataInicial + ", Durada: " + numSetmanes + " setmanes, Places: " + limitPlaces + ", Preu: " + preu + "€, Centre: " + nomCentre + ", Ciutat: " + ciutat + ")";
     }
 }
-}
+
