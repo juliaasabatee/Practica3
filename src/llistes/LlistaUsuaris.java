@@ -49,7 +49,7 @@ public class LlistaUsuaris {
         return cercarUsuari(alies) != null;
     }
 
-    /* Cerca un usuari pel seu alies */
+
     public Usuari cercarUsuari(String alies) {
         for (int i = 0; i < numUsuaris; i++) {
             if (llista[i].getAlies().equalsIgnoreCase(alies)) {
