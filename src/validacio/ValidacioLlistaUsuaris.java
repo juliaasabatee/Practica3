@@ -2,6 +2,7 @@ package validacio;
 
 import llistes.LlistaUsuaris;
 import dades.Estudiant;
+import excepcions.UsuariDuplicatException;
 
 public class ValidacioLlistaUsuaris {
 
@@ -13,14 +14,29 @@ public class ValidacioLlistaUsuaris {
         Estudiant e2 = new Estudiant("joan", "joan.perez", "GEB", 2021);
         Estudiant e3 = new Estudiant("anna", "anna.garcia", "GESST", 2023);
 
-        System.out.println("Afegir maria: " + llista.afegirUsuari(e1));
-        System.out.println("Afegir joan: " + llista.afegirUsuari(e2));
-        System.out.println("Afegir anna: " + llista.afegirUsuari(e3));
+        try {
+            System.out.println("Afegir maria: " + llista.afegirUsuari(e1));
+        } catch (UsuariDuplicatException ex) {
+            System.out.println("Error afegint maria: " + ex.getMessage());
+        }
 
-        System.out.println("Nombre usuaris: " + llista.getNumUsuaris());
-        System.out.println("Cerca usuari joan: " + llista.cercarUsuari("joan"));
+        try {
+            System.out.println("Afegir joan: " + llista.afegirUsuari(e2));
+        } catch (UsuariDuplicatException ex) {
+            System.out.println("Error afegint joan: " + ex.getMessage());
+        }
 
-        System.out.println("Usuaris ordenats:");
+        try {
+            System.out.println("Afegir anna: " + llista.afegirUsuari(e3));
+        } catch (UsuariDuplicatException ex) {
+            System.out.println("Error afegint anna: " + ex.getMessage());
+        }
+
+        System.out.println("\nNombre d'usuaris: " + llista.getNumUsuaris());
+
+        System.out.println("Cerca usuari 'joan': " + llista.cercarUsuari("joan"));
+
+        System.out.println("\nUsuaris ordenats:");
         for (int i = 0; i < llista.getNumUsuaris(); i++) {
             System.out.println(" - " + llista.getUsuari(i).getAlias());
         }

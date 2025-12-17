@@ -1,6 +1,7 @@
 package llistes;
 
 import dades.Usuari;
+import excepcions.UsuariDuplicatException;
 
 public class LlistaUsuaris {
 
@@ -21,9 +22,15 @@ public class LlistaUsuaris {
         this.llista = novaLlista;
     }
 
-    public boolean afegirUsuari(Usuari u) {
-        if (u == null || existeixUsuari(u.getAlias())) {
+    public boolean afegirUsuari(Usuari u) throws UsuariDuplicatException {
+        if (u == null) {
             return false;
+        }
+
+        if (existeixUsuari(u.getAlias())) {
+            throw new UsuariDuplicatException(
+                    "L'usuari amb àlies '" + u.getAlias() + "' ja existeix."
+            );
         }
 
         if (numUsuaris == llista.length) {
@@ -31,8 +38,8 @@ public class LlistaUsuaris {
         }
 
         int pos = 0;
-        while (pos < numUsuaris && 
-               llista[pos].getAlies().compareToIgnoreCase(u.getAlies()) < 0) {
+        while (pos < numUsuaris &&
+                llista[pos].getAlias().compareToIgnoreCase(u.getAlias()) < 0) {
             pos++;
         }
 
@@ -45,14 +52,13 @@ public class LlistaUsuaris {
         return true;
     }
 
-    public boolean existeixUsuari(String alies) {
-        return cercarUsuari(alies) != null;
+    public boolean existeixUsuari(String alias) {
+        return cercarUsuari(alias) != null;
     }
 
-
-    public Usuari cercarUsuari(String alies) {
+    public Usuari cercarUsuari(String alias) {
         for (int i = 0; i < numUsuaris; i++) {
-            if (llista[i].getAlies().equalsIgnoreCase(alies)) {
+            if (llista[i].getAlias().equalsIgnoreCase(alias)) {
                 return llista[i];
             }
         }
