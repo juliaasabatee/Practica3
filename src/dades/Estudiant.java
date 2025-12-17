@@ -21,4 +21,5 @@ public class Estudiant extends Usuari{
         return "Estudiant (Alias: " + alias + ", Correu: " + correuInici + "@estudiants.urv.cat, Ensenyament: " + ensenyament + ", Any Inici: " + anyInici + ")";
     }
 }
+/* @author Júlia Sabaté */
 

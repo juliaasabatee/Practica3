@@ -32,3 +32,4 @@ public abstract class Usuari {
         return this.alias.equals(altreUsuari.alias);
     }
 }
+/* @author Júlia Sabaté */

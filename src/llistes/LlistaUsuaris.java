@@ -22,7 +22,7 @@ public class LlistaUsuaris {
     }
 
     public boolean afegirUsuari(Usuari u) {
-        if (u == null || existeixUsuari(u.getAlies())) {
+        if (u == null || existeixUsuari(u.getAlias())) {
             return false;
         }
 

@@ -49,4 +49,5 @@ public class ActivitatPeriodica extends Activitat{
         return "ActivitatPeriodica (Nom: " + super.getNom() + ", Dia: " + diaSetmana + ", Horari: " + horari + ", Inici: " + dataInicial + ", Durada: " + numSetmanes + " setmanes, Places: " + limitPlaces + ", Preu: " + preu + "€, Centre: " + nomCentre + ", Ciutat: " + ciutat + ")";
     }
 }
+/* @author Júlia Sabaté */
 
