@@ -15,30 +15,40 @@ public class ValidacioLlistaUsuaris {
         Estudiant e3 = new Estudiant("anna", "anna.garcia", "GESST", 2023);
 
         try {
-            System.out.println("Afegir maria: " + llista.afegirUsuari(e1));
-        } catch (UsuariDuplicatException ex) {
-            System.out.println("Error afegint maria: " + ex.getMessage());
+            llista.afegirUsuari(e1);
+            System.out.println("Usuari maria afegit correctament");
+        } catch (UsuariDuplicatException e) {
+            System.out.println("ERROR: " + e.getMessage());
         }
 
         try {
-            System.out.println("Afegir joan: " + llista.afegirUsuari(e2));
-        } catch (UsuariDuplicatException ex) {
-            System.out.println("Error afegint joan: " + ex.getMessage());
+            llista.afegirUsuari(e2);
+            System.out.println("Usuari joan afegit correctament");
+        } catch (UsuariDuplicatException e) {
+            System.out.println("ERROR: " + e.getMessage());
         }
 
         try {
-            System.out.println("Afegir anna: " + llista.afegirUsuari(e3));
-        } catch (UsuariDuplicatException ex) {
-            System.out.println("Error afegint anna: " + ex.getMessage());
+            llista.afegirUsuari(e3);
+            System.out.println("Usuari anna afegit correctament");
+        } catch (UsuariDuplicatException e) {
+            System.out.println("ERROR: " + e.getMessage());
         }
 
-        System.out.println("\nNombre d'usuaris: " + llista.getNumUsuaris());
+        System.out.println("Nombre d'usuaris: " + llista.getNumUsuaris());
 
-        System.out.println("Cerca usuari 'joan': " + llista.cercarUsuari("joan"));
+        System.out.println("Cerca usuari joan: " + llista.cercarUsuari("joan"));
 
-        System.out.println("\nUsuaris ordenats:");
+        System.out.println("Usuaris ordenats:");
         for (int i = 0; i < llista.getNumUsuaris(); i++) {
             System.out.println(" - " + llista.getUsuari(i).getAlias());
+        }
+
+        System.out.println("Prova usuari duplicat:");
+        try {
+            llista.afegirUsuari(e1);
+        } catch (UsuariDuplicatException e) {
+            System.out.println("ERROR esperat: " + e.getMessage());
         }
     }
 }

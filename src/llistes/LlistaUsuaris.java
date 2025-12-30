@@ -22,9 +22,9 @@ public class LlistaUsuaris {
         this.llista = novaLlista;
     }
 
-    public boolean afegirUsuari(Usuari u) throws UsuariDuplicatException {
+    public void afegirUsuari(Usuari u) throws UsuariDuplicatException {
         if (u == null) {
-            return false;
+            throw new IllegalArgumentException("L'usuari no pot ser null");
         }
 
         if (existeixUsuari(u.getAlias())) {
@@ -49,7 +49,6 @@ public class LlistaUsuaris {
 
         llista[pos] = u;
         numUsuaris++;
-        return true;
     }
 
     public boolean existeixUsuari(String alias) {
