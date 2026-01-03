@@ -1,8 +1,8 @@
-package validacio;
+package Validacio;
 
-import llistes.LlistaUsuaris;
-import dades.Estudiant;
-import excepcions.UsuariDuplicatException;
+import Llistes.LlistaUsuaris;
+import Dades.Estudiant;
+import Excepcions.UsuariDuplicatException;
 
 public class ValidacioLlistaUsuaris {
 

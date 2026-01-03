@@ -1,5 +1,5 @@
-package llistes;
-import dades.Activitat;
+package Llistes;
+import Dades.Activitat;
 public class LlistaActivitats {
     private Activitat[] llista;
     private int nElem;

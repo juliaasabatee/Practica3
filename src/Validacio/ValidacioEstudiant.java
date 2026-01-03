@@ -1,6 +1,6 @@
-package validacio;
+package Validacio;
 
-import dades.Estudiant;
+import Dades.Estudiant;
 
 public class ValidacioEstudiant {
 

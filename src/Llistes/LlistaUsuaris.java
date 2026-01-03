@@ -1,7 +1,7 @@
-package llistes;
+package Llistes;
 
-import dades.Usuari;
-import excepcions.UsuariDuplicatException;
+import Dades.Usuari;
+import Excepcions.UsuariDuplicatException;
 
 public class LlistaUsuaris {
 

@@ -1,4 +1,4 @@
-package dades;
+package Dades;
 
 public class ActivitatPeriodica extends Activitat{
     private String diaSetmana;

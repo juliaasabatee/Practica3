@@ -1,4 +1,4 @@
-package dades;
+package Dades;
 import java.time.LocalDate;
 
 public abstract class Activitat {

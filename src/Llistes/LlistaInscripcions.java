@@ -1,6 +1,6 @@
-package llistes;
+package Llistes;
 
-import dades.Inscripcions;
+import Dades.Inscripcions;
 
 public class LlistaInscripcions {
 

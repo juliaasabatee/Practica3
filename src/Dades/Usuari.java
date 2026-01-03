@@ -1,4 +1,4 @@
-package dades;
+package Dades;
 
 public abstract class Usuari {
 
