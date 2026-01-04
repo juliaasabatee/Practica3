@@ -34,4 +34,8 @@ public class LlistaInscripcions {
             numInscripcions++;
         }
     }
+
+    public Inscripcions[] getInscripcio(int j) {
+        return inscripcions;
+    }
 }

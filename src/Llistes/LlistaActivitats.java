@@ -26,4 +26,6 @@ public class LlistaActivitats {
     public int getNElem() {
         return nElem;
     }
-}
+
+
+    }

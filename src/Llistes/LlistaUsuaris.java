@@ -82,5 +82,45 @@ public class LlistaUsuaris {
         }
         return resultat;
     }
+
+    public void mostrarUsuaris() {
+        for (int i = 0; i < numUsuaris; i++) {
+            System.out.println(llista[i]);
+        }
+    }
+
+    public Usuari buscarPerAlies(String alies) {
+        return cercarUsuari(alies);
+    }
+
+    public double mitjanaPerCollectiu(String collectiu) {
+        int suma = 0;
+        int comptador = 0;
+
+        for (int i = 0; i < numUsuaris; i++) {
+            Usuari u = llista[i];
+            if (u.teCollectiu(collectiu)) {
+                suma += u.getSumaValoracions();
+                comptador += u.getNumValoracions();
+            }
+        }
+
+        if (comptador == 0) return 0;
+        return suma / (double) comptador;
+    }
+
+    public Usuari usuariMesActiu() {
+        Usuari millor = null;
+        int max = -1;
+
+        for (int i = 0; i < numUsuaris; i++) {
+            int act = llista[i].getNumActivitats();
+            if (act > max) {
+                max = act;
+                millor = llista[i];
+            }
+        }
+        return millor;
+    }
 }
 /* @author Júlia Sabaté */
