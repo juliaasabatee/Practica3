@@ -8,13 +8,7 @@ public class ActivitatOnline extends Activitat {
 
     public ActivitatOnline(String nom, String[] collectius, LocalDate dataIniciInscripcio, LocalDate dataFiInscripcio,
                            String enllac, LocalDate dataIniciActivitat, int diesVisualitzacio) {
-      
-        this.nom = nom;
-        this.collectius = collectius;
-        this.dataIniciInscripcio = dataIniciInscripcio;
-        this.dataFiInscripcio = dataFiInscripcio;
-        
-       
+        super(nom, collectius, dataIniciInscripcio, dataFiInscripcio);
         this.enllac = enllac;
         this.dataIniciActivitat = dataIniciActivitat;
         this.diesVisualitzacio = diesVisualitzacio;

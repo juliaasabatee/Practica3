@@ -10,8 +10,10 @@ public class ActivitatPuntual extends Activitat {
     private String ciutat;
     private int limitPlaces;
     private double preu;
+    private double duracioHores = 1.0; // duración en horas por defecto
 
     public ActivitatPuntual() {
+        super();
     }
 
     public ActivitatPuntual(String nom,
@@ -26,6 +28,17 @@ public class ActivitatPuntual extends Activitat {
         this.ciutat = ciutat;
         this.limitPlaces = limitPlaces;
         this.preu = preu;
+    }
+
+    public ActivitatPuntual(String nom,
+                            LocalDate data,
+                            LocalTime horaInici,
+                            String ciutat,
+                            int limitPlaces,
+                            double preu,
+                            double duracioHores) {
+        this(nom, data, horaInici, ciutat, limitPlaces, preu);
+        this.duracioHores = duracioHores;
     }
 
     public LocalDate getData() {
@@ -66,5 +79,13 @@ public class ActivitatPuntual extends Activitat {
 
     public void setPreu(double preu) {
         this.preu = preu;
+    }
+
+    public double getDuracioHores() {
+        return duracioHores;
+    }
+
+    public void setDuracioHores(double duracioHores) {
+        this.duracioHores = duracioHores;
     }
 }

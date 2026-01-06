@@ -1,4 +1,5 @@
 package Dades;
+
 import java.time.LocalDate;
 
 public abstract class Activitat {
@@ -6,17 +7,20 @@ public abstract class Activitat {
     protected String[] collectius;
     protected LocalDate dataIniciInscripcio;
     protected LocalDate dataFiInscripcio;
+    protected String responsable; // responsable de l'activitat (p. ex. "Pau")
 
-    
     public Activitat() {
     }
 
-   
     public Activitat(String nom, String[] collectius, LocalDate dataIniciInscripcio, LocalDate dataFiInscripcio) {
         this.nom = nom;
         this.collectius = collectius;
         this.dataIniciInscripcio = dataIniciInscripcio;
         this.dataFiInscripcio = dataFiInscripcio;
+    }
+
+    public Activitat(String nom) {
+        this.nom = nom;
     }
 
     public String getNom() {
@@ -49,5 +53,13 @@ public abstract class Activitat {
 
     public void setDataFiInscripcio(LocalDate dataFiInscripcio) {
         this.dataFiInscripcio = dataFiInscripcio;
+    }
+
+    public String getResponsable() {
+        return responsable;
+    }
+
+    public void setResponsable(String responsable) {
+        this.responsable = responsable;
     }
 }
