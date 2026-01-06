@@ -5,6 +5,7 @@ public class PTGAS extends Usuari {
     private String campusTreball;
 
     public PTGAS() {
+        super("", "");
     }
 
     public PTGAS(String alies,

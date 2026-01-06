@@ -12,6 +12,10 @@ public class LlistaActivitats {
     private Activitat[] llista;
     private int nElem;
 
+    public LlistaActivitats() {
+        this(50);
+    }
+
     public LlistaActivitats(int tamanyMaxim) {
         this.llista = new Activitat[tamanyMaxim];
         this.nElem = 0;
@@ -51,6 +55,10 @@ public class LlistaActivitats {
     }
 
     public int getNElem() {
+        return nElem;
+    }
+
+    public int getNumActivitats() {
         return nElem;
     }
 
