@@ -1,4 +1,4 @@
-package consola;
+package Consola;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -10,6 +10,7 @@ import Dades.PDI;
 import Dades.PTGAS;
 import Dades.Inscripcions;
 
+import InterficieGrafica.AppInterficieGrafica;
 import Llistes.LlistaActivitats;
 import Llistes.LlistaInscripcions;
 import Llistes.LlistaUsuaris;
@@ -82,7 +83,10 @@ public class Consola {
         } while (opcio != 0);
 
         sc.close();
+        AppInterficieGrafica gui = new AppInterficieGrafica(llistaUsuaris);
+        gui.setVisible(true);
     }
+
 
     private static void mostrarDetallUsuari(LlistaUsuaris llista, Scanner sc) {
         System.out.print("Àlies usuari: ");
