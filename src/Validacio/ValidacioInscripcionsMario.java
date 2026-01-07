@@ -16,9 +16,9 @@ public class ValidacioInscripcionsMario {
         LocalDate avui = LocalDate.of(2025, 10, 1);
 
         LlistaUsuaris usuaris = new LlistaUsuaris();
-        usuaris.afegirUsuari(new Estudiant("mario", "mario", "GEI", 2022));
-        usuaris.afegirUsuari(new Estudiant("pau", "pau", "GEI", 2022));
-        usuaris.afegirUsuari(new Estudiant("julia", "julia", "GEI", 2022));
+        usuaris.afegirUsuari(new Estudiant("mario", "mario"));
+        usuaris.afegirUsuari(new Estudiant("pau", "pau"));
+        usuaris.afegirUsuari(new Estudiant("julia", "julia"));
 
         LlistaActivitats activitats = new LlistaActivitats(20);
         ActivitatPuntual a1 = new ActivitatPuntual(

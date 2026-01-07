@@ -8,9 +8,7 @@ public class ValidacioEstudiant {
 
         Estudiant e = new Estudiant(
                 "julia",
-                "julia.sabate",
-                "GESST",
-                2022
+                "julia.sabate"
         );
 
         System.out.println("Alias: " + e.getAlias());

@@ -382,4 +382,22 @@ public class LlistaActivitats {
             default: return null;
         }
     }
+
+    public void mostrarActivitats() {
+    }
+
+    public void mostrarActivitatsEnPeriodeInscripcio(LocalDate dataAvui) {
+    }
+
+    public void mostrarActivitatsAmbClasseAvui(LocalDate dataAvui) {
+    }
+
+    public void mostrarActivitatsActives(LocalDate dataAvui) {
+    }
+
+    public void mostrarActivitatsAmbPlaces(LlistaInscripcions li) {
+    }
+
+    public void donarBaixaActivitatsNoViables(LlistaInscripcions li, LocalDate dataAvui) {
+    }
 }

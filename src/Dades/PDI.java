@@ -5,7 +5,7 @@ public class PDI extends Usuari {
     private String departament;
     private String campus;
 
-    public PDI(String alies, String correu, String departament, String campus) {
+    public PDI(String alies, String correu) {
         super(alies, correu);
         this.departament = departament;
         this.campus = campus;

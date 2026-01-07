@@ -65,7 +65,7 @@ import java.io.IOException;
                         String ensenyament = camps[3];
                         int anyInici = Integer.parseInt(camps[4]);
 
-                        Usuari e = new Estudiant(alias, correu, ensenyament, anyInici);
+                        Usuari e = new Estudiant(alias, correu);
                         afegirUsuari(e);
                     }
                 }

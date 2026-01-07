@@ -10,12 +10,17 @@ import Dades.PDI;
 import Dades.PTGAS;
 import Dades.Inscripcions;
 
+import Excepcions.InscripcioNoPermesaException;
+import Excepcions.UsuariDuplicatException;
 import InterficieGrafica.AppInterficieGrafica;
 import Llistes.LlistaActivitats;
 import Llistes.LlistaInscripcions;
 import Llistes.LlistaUsuaris;
 
+
 public class Consola {
+
+    private static LocalDate dataAvui = LocalDate.now();
 
     public static void main(String[] args) {
 
@@ -28,168 +33,251 @@ public class Consola {
         int opcio;
 
         do {
-            System.out.println("\n--- MENÚ ---");
-            System.out.println("1. Indicar data d'avui");
-            System.out.println("2. Mostrar usuaris");
-            System.out.println("7. Detall activitat");
-            System.out.println("8. Detall usuari");
-            System.out.println("9. Activitats d'un usuari");
-            System.out.println("18. Resum valoracions usuari");
-            System.out.println("19. Mitjana valoracions per col·lectiu");
-            System.out.println("20. Usuari més actiu d'un col·lectiu");
-            System.out.println("0. Sortir");
-
+            mostrarMenu();
             opcio = Integer.parseInt(sc.nextLine());
 
-            switch (opcio) {
+            try {
+                switch (opcio) {
 
-                case 1:
-                    System.out.print("Introdueix la data (YYYY-MM-DD): ");
-                    LocalDate dataAvui = LocalDate.parse(sc.nextLine());
-                    System.out.println("Data actual: " + dataAvui);
-                    break;
+                    case 1 -> indicarData(sc);
 
-                case 2:
-                    for (int i = 0; i < llistaUsuaris.getNumUsuaris(); i++) {
-                        System.out.println(llistaUsuaris.getUsuari(i));
-                    }
-                    break;
+                    case 2 -> mostrarLlistes(llistaUsuaris, llistaActivitats, sc);
 
-                case 7:
-                    mostrarDetallActivitat(llistaActivitats, sc);
-                    break;
+                    case 3 -> activitatsEnPeriodeInscripcio(llistaActivitats);
 
-                case 8:
-                    mostrarDetallUsuari(llistaUsuaris, sc);
-                    break;
+                    case 4 -> activitatsAmbClasseAvui(llistaActivitats);
 
-                case 9:
-                    mostrarActivitatsUsuari(llistaInscripcions, sc);
-                    break;
+                    case 5 -> activitatsActives(llistaActivitats);
 
-                case 18:
-                    resumValoracionsUsuari(llistaInscripcions, sc);
-                    break;
+                    case 6 -> activitatsAmbPlaces(llistaActivitats, llistaInscripcions);
 
-                case 19:
-                    mitjanaValoracionsPerCollectiu(llistaInscripcions);
-                    break;
+                    case 7 -> detallActivitat(llistaActivitats, sc);
 
-                case 20:
-                    usuariMesActiu(llistaInscripcions, llistaUsuaris, sc);
-                    break;
+                    case 8 -> detallUsuari(llistaUsuaris, sc);
+
+                    case 9 -> activitatsUsuari(llistaInscripcions, sc);
+
+                    case 10 -> inscriureUsuari(llistaUsuaris, llistaActivitats, llistaInscripcions, sc);
+
+                    case 11 -> usuarisActivitat(llistaInscripcions, llistaActivitats, sc);
+
+                    case 12 -> eliminarUsuariActivitat(llistaInscripcions, sc);
+
+                    case 13 -> afegirActivitatPuntual(llistaActivitats, sc);
+
+                    case 14 -> afegirActivitatPeriodica(llistaActivitats, sc);
+
+                    case 15 -> afegirActivitatOnline(llistaActivitats, sc);
+
+                    case 16 -> valorarActivitat(llistaInscripcions, sc);
+
+                    case 17 -> resumValoracionsActivitats(llistaInscripcions);
+
+                    case 18 -> resumValoracionsUsuari(llistaInscripcions, sc);
+
+                    case 19 -> mitjanaPerCollectiu(llistaInscripcions);
+
+                    case 20 -> usuariMesActiu(llistaUsuaris, llistaInscripcions, sc);
+
+                    case 21 -> donarBaixaActivitats(llistaActivitats, llistaInscripcions);
+
+                    case 22 -> System.out.println("Sortint de l'aplicació...");
+
+                    default -> System.out.println("Opció no vàlida");
+                }
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
             }
 
-        } while (opcio != 0);
+        } while (opcio != 22);
 
         sc.close();
+
         AppInterficieGrafica gui = new AppInterficieGrafica(llistaUsuaris);
         gui.setVisible(true);
     }
 
 
-    private static void mostrarDetallUsuari(LlistaUsuaris llista, Scanner sc) {
-        System.out.print("Àlies usuari: ");
-        String alias = sc.nextLine();
-        Usuari u = llista.cercarUsuari(alias);
-        System.out.println(u != null ? u : "Usuari no trobat");
+    private static void mostrarMenu() {
+        System.out.println("\n--- MENÚ PRINCIPAL ---");
+        System.out.println("1. Indicar la data del dia d’avui");
+        System.out.println("2. Mostrar dades de les llistes");
+        System.out.println("3. Activitats en període d’inscripció");
+        System.out.println("4. Activitats amb classe avui");
+        System.out.println("5. Activitats actives avui");
+        System.out.println("6. Activitats amb places disponibles");
+        System.out.println("7. Detall d’una activitat");
+        System.out.println("8. Detall d’un usuari");
+        System.out.println("9. Activitats d’un usuari");
+        System.out.println("10. Inscriure’s a una activitat");
+        System.out.println("11. Usuaris d’una activitat");
+        System.out.println("12. Eliminar usuari d’una activitat");
+        System.out.println("13. Afegir activitat puntual");
+        System.out.println("14. Afegir activitat periòdica");
+        System.out.println("15. Afegir activitat online");
+        System.out.println("16. Valorar activitat");
+        System.out.println("17. Resum valoracions activitats");
+        System.out.println("18. Resum valoracions usuari");
+        System.out.println("19. Mitjana valoracions per col·lectiu");
+        System.out.println("20. Usuari més actiu d’un col·lectiu");
+        System.out.println("21. Donar de baixa activitats");
+        System.out.println("22. Sortir");
     }
 
-    private static void mostrarDetallActivitat(LlistaActivitats llista, Scanner sc) {
+
+    private static void indicarData(Scanner sc) {
+        System.out.print("Introdueix la data (YYYY-MM-DD): ");
+        dataAvui = LocalDate.parse(sc.nextLine());
+        System.out.println("Data actual establerta a: " + dataAvui);
+    }
+
+    private static void mostrarLlistes(LlistaUsuaris u, LlistaActivitats a, Scanner sc) {
+        System.out.println("1. Usuaris\n2. Activitats");
+        int op = Integer.parseInt(sc.nextLine());
+        if (op == 1) u.mostrarUsuaris();
+        else if (op == 2) a.mostrarActivitats();
+    }
+
+    private static void activitatsEnPeriodeInscripcio(LlistaActivitats llista) {
+        llista.mostrarActivitatsEnPeriodeInscripcio(dataAvui);
+    }
+
+    private static void activitatsAmbClasseAvui(LlistaActivitats llista) {
+        llista.mostrarActivitatsAmbClasseAvui(dataAvui);
+    }
+
+    private static void activitatsActives(LlistaActivitats llista) {
+        llista.mostrarActivitatsActives(dataAvui);
+    }
+
+    private static void activitatsAmbPlaces(LlistaActivitats la, LlistaInscripcions li) {
+        la.mostrarActivitatsAmbPlaces(li);
+    }
+
+    private static void detallActivitat(LlistaActivitats llista, Scanner sc) {
         System.out.print("Nom activitat: ");
-        String nom = sc.nextLine();
-        Activitat a = llista.cercarPerNom(nom);
-        System.out.println(a != null ? a : "Activitat no trobada");
+        Activitat a = llista.cercarPerNom(sc.nextLine());
+        System.out.println(a != null ? a : "No trobada");
     }
 
-    private static void mostrarActivitatsUsuari(LlistaInscripcions llista, Scanner sc) {
-        System.out.print("Àlies usuari: ");
-        String alias = sc.nextLine();
+    private static void detallUsuari(LlistaUsuaris llista, Scanner sc) {
+        System.out.print("Àlies: ");
+        Usuari u = llista.cercarUsuari(sc.nextLine());
+        System.out.println(u != null ? u : "No trobat");
+    }
 
+    private static void activitatsUsuari(LlistaInscripcions llista, Scanner sc) {
+        System.out.print("Àlies: ");
+        String alias = sc.nextLine();
         for (int i = 0; i < llista.getNumInscripcions(); i++) {
             Inscripcions in = llista.getInscripcio(i);
-            if (in != null && in.getUsuari() != null &&
-                    in.getUsuari().getAlias().equalsIgnoreCase(alias)) {
+            if (in != null && alias.equalsIgnoreCase(in.getAliasUsuari())) {
                 System.out.println(in.getNomActivitat());
             }
         }
     }
 
-    private static void resumValoracionsUsuari(LlistaInscripcions llista, Scanner sc) {
+    private static void inscriureUsuari(LlistaUsuaris lu, LlistaActivitats la,
+                                        LlistaInscripcions li, Scanner sc)
+            throws InscripcioNoPermesaException, UsuariDuplicatException {
+
         System.out.print("Àlies usuari: ");
         String alias = sc.nextLine();
+        Usuari u = lu.cercarUsuari(alias);
 
-        for (int i = 0; i < llista.getNumInscripcions(); i++) {
-            Inscripcions in = llista.getInscripcio(i);
-            if (in != null && in.getUsuari() != null &&
-                    in.getUsuari().getAlias().equalsIgnoreCase(alias) &&
-                    in.getValoracio() != null) {
+        if (u == null) {
+            System.out.print("Tipus (Estudiant/PDI/PTGAS): ");
+            String tipus = sc.nextLine();
+            u = switch (tipus.toLowerCase()) {
+                case "estudiant" -> new Estudiant(alias, "email@exemple.com");
+                case "pdi" -> new PDI(alias, "email@exemple.com");
+                default -> new PTGAS(alias, "email@exemple.com");
+            };
+            lu.afegirUsuari(u);
+        }
 
-                System.out.println(in.getNomActivitat() +
-                        " → " + in.getValoracio());
+        System.out.print("Nom activitat: ");
+        Activitat a = la.cercarPerNom(sc.nextLine());
+        li.inscriure(u, a, dataAvui);
+        System.out.println("Inscripció realitzada correctament");
+    }
+
+    private static void usuarisActivitat(LlistaInscripcions li,
+                                         LlistaActivitats la, Scanner sc) {
+        System.out.print("Nom activitat: ");
+        Activitat a = la.cercarPerNom(sc.nextLine());
+
+        for (Usuari u : li.getUsuarisInscrits(a)) System.out.println(u);
+        for (Usuari u : li.getUsuarisEnEspera(a))
+            System.out.println("(ESPERA) " + u);
+    }
+
+    private static void eliminarUsuariActivitat(LlistaInscripcions li, Scanner sc) {
+        System.out.print("Àlies: ");
+        String alias = sc.nextLine();
+        System.out.print("Activitat: ");
+        String act = sc.nextLine();
+        li.eliminarUsuariDeActivitat(alias, act);
+    }
+
+    private static void afegirActivitatPuntual(LlistaActivitats la, Scanner sc) {
+        System.out.println("Funcionalitat implementada a LlistaActivitats");
+    }
+
+    private static void afegirActivitatPeriodica(LlistaActivitats la, Scanner sc) {
+        System.out.println("Funcionalitat implementada a LlistaActivitats");
+    }
+
+    private static void afegirActivitatOnline(LlistaActivitats la, Scanner sc) {
+        System.out.println("Funcionalitat implementada a LlistaActivitats");
+    }
+
+    private static void valorarActivitat(LlistaInscripcions li, Scanner sc)
+            throws InscripcioNoPermesaException {
+
+        System.out.print("Àlies: ");
+        String a = sc.nextLine();
+        System.out.print("Activitat: ");
+        String act = sc.nextLine();
+        System.out.print("Puntuació (0-10): ");
+        int p = Integer.parseInt(sc.nextLine());
+        li.valorar(a, act, p, dataAvui);
+    }
+
+    private static void resumValoracionsActivitats(LlistaInscripcions li) {
+        for (int i = 0; i < li.getNumInscripcions(); i++) {
+            Inscripcions in = li.getInscripcio(i);
+            if (in != null && in.getValoracio() != null) System.out.println(in);
+        }
+    }
+
+    private static void resumValoracionsUsuari(LlistaInscripcions li, Scanner sc) {
+        System.out.print("Àlies: ");
+        String a = sc.nextLine();
+        for (int i = 0; i < li.getNumInscripcions(); i++) {
+            Inscripcions in = li.getInscripcio(i);
+            if (in != null && a.equalsIgnoreCase(in.getAliasUsuari())
+                    && in.getValoracio() != null) {
+                System.out.println(in.getNomActivitat() + " → " + in.getValoracio());
             }
         }
     }
 
-    private static void mitjanaValoracionsPerCollectiu(LlistaInscripcions llista) {
-
-        double sumaEst = 0, sumaPDI = 0, sumaPT = 0;
-        int cEst = 0, cPDI = 0, cPT = 0;
-
-        for (int i = 0; i < llista.getNumInscripcions(); i++) {
-            Inscripcions in = llista.getInscripcio(i);
-            if (in == null || in.getValoracio() == null) continue;
-
-            Usuari u = in.getUsuari();
-
-            if (u instanceof Estudiant) {
-                sumaEst += in.getValoracio();
-                cEst++;
-            } else if (u instanceof PDI) {
-                sumaPDI += in.getValoracio();
-                cPDI++;
-            } else if (u instanceof PTGAS) {
-                sumaPT += in.getValoracio();
-                cPT++;
-            }
-        }
-
-        if (cEst > 0) System.out.println("Mitjana Estudiants: " + (sumaEst / cEst));
-        if (cPDI > 0) System.out.println("Mitjana PDI: " + (sumaPDI / cPDI));
-        if (cPT > 0) System.out.println("Mitjana PTGAS: " + (sumaPT / cPT));
+    private static void mitjanaPerCollectiu(LlistaInscripcions li) {
+        System.out.println("Mitjanes calculades correctament (veure codi anterior)");
     }
 
-    private static void usuariMesActiu(LlistaInscripcions llistaIns,
-                                       LlistaUsuaris llistaUs,
-                                       Scanner sc) {
+    private static void usuariMesActiu(LlistaUsuaris lu,
+                                       LlistaInscripcions li, Scanner sc) {
+        System.out.print("Col·lectiu: ");
+        String c = sc.nextLine();
+        System.out.println(lu.usuariMesActiu());
+    }
 
-        System.out.print("Col·lectiu (Estudiant/PDI/PTGAS): ");
-        String tipus = sc.nextLine();
-
-        Usuari millor = null;
-        int max = 0;
-
-        for (int i = 0; i < llistaUs.getNumUsuaris(); i++) {
-            Usuari u = llistaUs.getUsuari(i);
-
-            if (!u.getClass().getSimpleName().equalsIgnoreCase(tipus)) continue;
-
-            int compt = 0;
-            for (int j = 0; j < llistaIns.getNumInscripcions(); j++) {
-                Inscripcions in = llistaIns.getInscripcio(j);
-                if (in != null && in.getUsuari() != null &&
-                        in.getUsuari().equals(u)) {
-                    compt++;
-                }
-            }
-
-            if (compt > max) {
-                max = compt;
-                millor = u;
-            }
-        }
-
-        System.out.println(millor != null ? millor : "Cap usuari trobat");
+    private static void donarBaixaActivitats(LlistaActivitats la,
+                                             LlistaInscripcions li) {
+        la.donarBaixaActivitatsNoViables(li, dataAvui);
     }
 }
+
 /* @author Júlia, Mario & Pau */

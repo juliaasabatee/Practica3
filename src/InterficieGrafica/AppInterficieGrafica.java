@@ -9,7 +9,7 @@ import Dades.Usuari;
 
 public class AppInterficieGrafica extends JFrame {
 
-    private LlistaUsuaris llistaUsuaris;
+    private final LlistaUsuaris llistaUsuaris;
 
     private JTextField campAlias;
     private JTextArea areaResultats;

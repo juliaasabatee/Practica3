@@ -10,9 +10,9 @@ public class ValidacioLlistaUsuaris {
 
         LlistaUsuaris llista = new LlistaUsuaris();
 
-        Estudiant e1 = new Estudiant("maria", "maria.lopez", "GEI", 2022);
-        Estudiant e2 = new Estudiant("joan", "joan.perez", "GEB", 2021);
-        Estudiant e3 = new Estudiant("anna", "anna.garcia", "GESST", 2023);
+        Estudiant e1 = new Estudiant("maria", "maria.lopez");
+        Estudiant e2 = new Estudiant("joan", "joan.perez");
+        Estudiant e3 = new Estudiant("anna", "anna.garcia");
 
         try {
             llista.afegirUsuari(e1);
