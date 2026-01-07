@@ -5,4 +5,5 @@ public class UsuariDuplicatException extends Exception {
         super(missatge);
     }
 }
+/* @author Júlia Sabaté */
 
