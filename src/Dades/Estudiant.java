@@ -7,6 +7,9 @@ public class Estudiant extends Usuari{
         this.ensenyament = ensenyament;
         this.anyInici = anyInici;
     }
+    public String getCollectiu() { 
+        return "Estudiant"; 
+    }
     public String getEnsenyament() {
         return this.ensenyament;
     }
