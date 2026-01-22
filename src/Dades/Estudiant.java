@@ -1,28 +1,19 @@
 package Dades;
-public class Estudiant extends Usuari{
+
+public class Estudiant extends Usuari {
+
     private String ensenyament;
     private int anyInici;
-    public Estudiant(String alias, String correuInici) {
-        super(alias, correuInici);
+
+    public Estudiant(String alias, String correu,
+                     String ensenyament, int anyInici) {
+        super(alias, correu);
         this.ensenyament = ensenyament;
         this.anyInici = anyInici;
     }
-    public String getCollectiu() { 
-        return "Estudiant"; 
-    }
-    public String getEnsenyament() {
-        return this.ensenyament;
-    }
-    public int getAnyInici() {
-        return this.anyInici;
-    }
-    public void setAnyInici(int anyInici) {
-        this.anyInici = anyInici;
-    }
+
     @Override
-    public String toString() {
-        return "Estudiant (Alias: " + alias + ", Correu: " + correuInici + "@estudiants.urv.cat, Ensenyament: " + ensenyament + ", Any Inici: " + anyInici + ")";
+    public String getCollectiu() {
+        return "Estudiant";
     }
 }
-/* @author Júlia Sabaté */
-
