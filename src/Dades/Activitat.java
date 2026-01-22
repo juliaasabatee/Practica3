@@ -8,9 +8,8 @@ public abstract class Activitat {
     protected LocalDate dataIniciInscripcio;
     protected LocalDate dataFiInscripcio;
     protected String responsable; // responsable de l'activitat (p. ex. "Pau")
-
-    public Activitat() {
-    }
+    protected int capacitat;
+    protected int inscrits;
 
     public Activitat(String nom, String[] collectius, LocalDate dataIniciInscripcio, LocalDate dataFiInscripcio) {
         this.nom = nom;
@@ -18,6 +17,48 @@ public abstract class Activitat {
         this.dataIniciInscripcio = dataIniciInscripcio;
         this.dataFiInscripcio = dataFiInscripcio;
     }
+
+    public boolean estaEnPeriode(LocalDate data) {
+        return (data.isEqual(dataIniciInscripcio) || data.isAfter(dataIniciInscripcio)) &&
+               (data.isEqual(dataFiInscripcio) || data.isBefore(dataFiInscripcio));
+    }
+
+    public boolean haAcabat(LocalDate data) {
+        return data.isAfter(dataFiInscripcio);
+    }
+
+    public boolean tePlacesDisponibles() {
+        return inscrits < capacitat;
+    }
+
+    public boolean esEnTerminiInscripcio(LocalDate data) {
+        return !haAcabat(data);
+    }
+
+    public void inscriure() {
+        inscrits++;
+    }
+
+    public void desinscriure() {
+        if (inscrits > 0) inscrits--;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    @Override
+    public String toString() {
+        return nom + " (" + inscrits + "/" + capacitat + ")";
+    }
+
+    public abstract boolean hiHaClasseAvui(LocalDate data);
+    }
+
+    public Activitat() {
+    }
+
+
 
     public Activitat(String nom) {
         this.nom = nom;
