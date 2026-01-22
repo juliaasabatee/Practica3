@@ -3,6 +3,8 @@ package Consola;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import Dades.*;
 import Excepcions.*;
@@ -14,6 +16,8 @@ public class Consola {
     private static LocalDate dataAvui = LocalDate.now();
 
     public static void main(String[] args) {
+        Path p = Paths.get("activitats.txt");
+        LlistaActivitatsText.carregar(p);
 
         Scanner sc = new Scanner(System.in);
 
