@@ -10,6 +10,9 @@ public class PDI extends Usuari {
         this.departament = departament;
         this.campus = campus;
     }
+    public String getCollectiu() {
+        return "PDI"; 
+    }
 
     public String getDepartament() {
         return departament;
