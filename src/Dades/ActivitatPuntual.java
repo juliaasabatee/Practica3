@@ -36,9 +36,11 @@ public class ActivitatPuntual extends Activitat {
                             String ciutat,
                             int limitPlaces,
                             double preu,
-                            double duracioHores) {
+                            double duracioHores, int capacitat) {
         this(nom, data, horaInici, ciutat, limitPlaces, preu);
         this.duracioHores = duracioHores;
+        this.capacitat = capacitat;
+        this.inscrits = 0;
     }
 
     public LocalDate getData() {
@@ -87,5 +89,9 @@ public class ActivitatPuntual extends Activitat {
 
     public void setDuracioHores(double duracioHores) {
         this.duracioHores = duracioHores;
+    }
+    @Override
+    public boolean hiHaClasseAvui(LocalDate data) {
+        return data.equals(dataClasse);
     }
 }
