@@ -1,6 +1,10 @@
 package Dades;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.Set;
 
 public class ActivitatPeriodica extends Activitat{
+    private Set<DayOfWeek> diesSetmana;
     private String diaSetmana;
     private String horari;
     private String dataInicial;
@@ -9,7 +13,7 @@ public class ActivitatPeriodica extends Activitat{
     private double preu;
     private String nomCentre;
     private String ciutat;
-    public ActivitatPeriodica(String nom, String diaSetmana, String horari, String dataInicial, int numSetmanes, int limitPlaces, double preu, String nomCentre, String ciutat) {
+    public ActivitatPeriodica(String nom, String diaSetmana, String horari, String dataInicial, int numSetmanes, int limitPlaces, double preu, String nomCentre, String ciutat, Set<DayOfWeek> dies) {
         super(nom);
         this.diaSetmana = diaSetmana;
         this.horari = horari;
@@ -19,6 +23,7 @@ public class ActivitatPeriodica extends Activitat{
         this.preu = preu;
         this.nomCentre = nomCentre;
         this.ciutat = ciutat;
+        this.diesSetmana = dies;
     }
     public String getDiaSetmana() {
         return this.diaSetmana;
@@ -47,6 +52,11 @@ public class ActivitatPeriodica extends Activitat{
     @Override
     public String toString() {
         return "ActivitatPeriodica (Nom: " + super.getNom() + ", Dia: " + diaSetmana + ", Horari: " + horari + ", Inici: " + dataInicial + ", Durada: " + numSetmanes + " setmanes, Places: " + limitPlaces + ", Preu: " + preu + "€, Centre: " + nomCentre + ", Ciutat: " + ciutat + ")";
+    }
+    @Override
+    public boolean hiHaClasseAvui(LocalDate data) {
+        return estaEnPeriode(data) &&
+               diesSetmana.contains(data.getDayOfWeek());
     }
 }
 /* @author Júlia Sabaté */
