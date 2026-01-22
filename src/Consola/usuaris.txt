@@ -1,0 +1,2 @@
+ESTUDIANT;anna;anna@urv.cat;Informàtica;2022
+ESTUDIANT;marc;marc@urv.cat;Matemàtiques;2021
