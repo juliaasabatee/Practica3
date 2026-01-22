@@ -1,46 +1,31 @@
 package Dades;
+
 import java.time.LocalDate;
 
 public class ActivitatOnline extends Activitat {
+
     private String enllac;
     private LocalDate dataIniciActivitat;
     private int diesVisualitzacio;
 
-    public ActivitatOnline(String nom, String[] collectius, LocalDate dataIniciInscripcio, LocalDate dataFiInscripcio,
-                           String enllac, LocalDate dataIniciActivitat, int diesVisualitzacio, int capacitat) {
-        super(nom, collectius, dataIniciInscripcio, dataFiInscripcio);
+    public ActivitatOnline(String nom, String[] collectius,
+                           LocalDate dataIniciInscripcio,
+                           LocalDate dataFiInscripcio,
+                           int capacitat,
+                           String enllac,
+                           LocalDate dataIniciActivitat,
+                           int diesVisualitzacio) {
+
+        super(nom, collectius, dataIniciInscripcio, dataFiInscripcio, capacitat);
         this.enllac = enllac;
         this.dataIniciActivitat = dataIniciActivitat;
         this.diesVisualitzacio = diesVisualitzacio;
-        this.capacitat = capacitat;
-        this.inscrits = 0
     }
 
-    public String getEnllac() {
-        return enllac;
-    }
-
-    public void setEnllac(String enllac) {
-        this.enllac = enllac;
-    }
-
-    public LocalDate getDataIniciActivitat() {
-        return dataIniciActivitat;
-    }
-
-    public void setDataIniciActivitat(LocalDate dataIniciActivitat) {
-        this.dataIniciActivitat = dataIniciActivitat;
-    }
-
-    public int getDiesVisualitzacio() {
-        return diesVisualitzacio;
-    }
-
-    public void setDiesVisualitzacio(int diesVisualitzacio) {
-        this.diesVisualitzacio = diesVisualitzacio;
-    }
     @Override
     public boolean hiHaClasseAvui(LocalDate data) {
-        return false;
+        LocalDate fi = dataIniciActivitat.plusDays(diesVisualitzacio);
+        return (data.isEqual(dataIniciActivitat) || data.isAfter(dataIniciActivitat)) &&
+               (data.isBefore(fi) || data.isEqual(fi));
     }
 }
