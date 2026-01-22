@@ -75,17 +75,18 @@ public abstract class Usuari {
         System.out.println("Mitjana: " + mitjana);
     }
 
+    
+    public abstract String getCollectiu();
+
     @Override
-    public String toString() {
-        return "Usuari (Alias: " + alias + ", Correu: " + correuInici + ")";
+    public boolean equals(Object o) {
+        if (!(o instanceof Usuari)) return false;
+        return alias.equalsIgnoreCase(((Usuari) o).alias);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Usuari altre = (Usuari) obj;
-        return alias.equalsIgnoreCase(altre.alias);
+    public String toString() {
+        return alias + " (" + getCollectiu() + ")";
     }
 }
 
