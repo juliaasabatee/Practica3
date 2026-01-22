@@ -21,4 +21,8 @@ public class PTGAS extends Usuari {
     public void setCampusTreball(String campusTreball) {
         this.campusTreball = campusTreball;
     }
+    public String getCollectiu() { 
+        return "PTGAS"; 
+    }
+
 }
