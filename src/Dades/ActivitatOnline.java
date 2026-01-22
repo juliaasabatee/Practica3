@@ -7,11 +7,13 @@ public class ActivitatOnline extends Activitat {
     private int diesVisualitzacio;
 
     public ActivitatOnline(String nom, String[] collectius, LocalDate dataIniciInscripcio, LocalDate dataFiInscripcio,
-                           String enllac, LocalDate dataIniciActivitat, int diesVisualitzacio) {
+                           String enllac, LocalDate dataIniciActivitat, int diesVisualitzacio, int capacitat) {
         super(nom, collectius, dataIniciInscripcio, dataFiInscripcio);
         this.enllac = enllac;
         this.dataIniciActivitat = dataIniciActivitat;
         this.diesVisualitzacio = diesVisualitzacio;
+        this.capacitat = capacitat;
+        this.inscrits = 0
     }
 
     public String getEnllac() {
@@ -36,5 +38,9 @@ public class ActivitatOnline extends Activitat {
 
     public void setDiesVisualitzacio(int diesVisualitzacio) {
         this.diesVisualitzacio = diesVisualitzacio;
+    }
+    @Override
+    public boolean hiHaClasseAvui(LocalDate data) {
+        return false;
     }
 }
