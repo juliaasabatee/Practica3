@@ -1,0 +1,3 @@
+# Activitat puntual PUNTUAL;Xerrada Java;Estudiant,PDI;2024-01-01;2026-12-31;20;0;2026-02-10;10:00;Tarragona 
+# Activitat periòdica PERIODICA;Ioga;PTGAS,Estudiant;2024-01-01;2026-12-31;15;10;DILLUNS;18:00-19:00;2026-02-01;8;Centre Esportiu;Reus 
+# Activitat online ONLINE;Curs Git;Estudiant,PDI;2024-01-01;2026-12-31;https://git.com;2026-01-20;30
