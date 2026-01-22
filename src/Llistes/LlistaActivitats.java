@@ -382,22 +382,98 @@ public class LlistaActivitats {
             default: return null;
         }
     }
-
     public void mostrarActivitats() {
+    if (nElem == 0) {
+        System.out.println("No hi ha activitats.");
+        return;
     }
+    for (int i = 0; i < nElem; i++) {
+        System.out.println(llista[i]);
+    }
+}
 
-    public void mostrarActivitatsEnPeriodeInscripcio(LocalDate dataAvui) {
-    }
 
-    public void mostrarActivitatsAmbClasseAvui(LocalDate dataAvui) {
+
+   public void mostrarActivitatsEnPeriodeInscripcio(LocalDate dataAvui) {
+    Activitat[] acts = activitatsEnPeriodInscripcio(dataAvui);
+    if (acts.length == 0) {
+        System.out.println("No hi ha activitats en període d'inscripció.");
+        return;
     }
+    for (Activitat a : acts) {
+        System.out.println(a);
+    }
+}
+
+
+   public void mostrarActivitatsAmbClasseAvui(LocalDate dataAvui) {
+    Activitat[] acts = activitatsAmbClasseEnData(dataAvui);
+    if (acts.length == 0) {
+        System.out.println("No hi ha activitats amb classe avui.");
+        return;
+    }
+    for (Activitat a : acts) {
+        System.out.println(a);
+    }
+}
+
 
     public void mostrarActivitatsActives(LocalDate dataAvui) {
+    Activitat[] acts = activitatsActivesEnData(dataAvui);
+    if (acts.length == 0) {
+        System.out.println("No hi ha activitats actives.");
+        return;
     }
+    for (Activitat a : acts) {
+        System.out.println(a);
+    }
+}
+
 
     public void mostrarActivitatsAmbPlaces(LlistaInscripcions li) {
+    Activitat[] acts = activitatsAmbPlacesDisponibles(li);
+    if (acts.length == 0) {
+        System.out.println("No hi ha activitats amb places disponibles.");
+        return;
     }
+    for (Activitat a : acts) {
+        System.out.println(a);
+    }
+}
 
-    public void donarBaixaActivitatsNoViables(LlistaInscripcions li, LocalDate dataAvui) {
+
+  public void donarBaixaActivitatsNoViables(LlistaInscripcions li, LocalDate dataAvui) {
+    for (int i = 0; i < nElem; i++) {
+        Activitat a = llista[i];
+        if (a == null) continue;
+
+        boolean eliminar = false;
+
+        if (a instanceof ActivitatOnline) {
+            int inscrits = li.contarInscritsActius(a);
+            if (inscrits < 20) eliminar = true;
+        } else {
+            if (a.getDataFiInscripcio() != null &&
+                dataAvui.isAfter(a.getDataFiInscripcio())) {
+
+                int inscrits = li.contarInscritsActius(a);
+                int limit = 0;
+
+                if (a instanceof ActivitatPuntual)
+                    limit = ((ActivitatPuntual) a).getLimitPlaces();
+                else if (a instanceof ActivitatPeriodica)
+                    limit = ((ActivitatPeriodica) a).getLimitPlaces();
+
+                if (limit > 0 && inscrits < limit * 0.1)
+                    eliminar = true;
+            }
+        }
+
+        if (eliminar) {
+            eliminarPerNom(a.getNom());
+            i--; 
+        }
     }
+}
+
 }
