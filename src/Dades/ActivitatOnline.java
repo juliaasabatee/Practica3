@@ -28,4 +28,10 @@ public class ActivitatOnline extends Activitat {
         return (data.isEqual(dataIniciActivitat) || data.isAfter(dataIniciActivitat)) &&
                (data.isBefore(fi) || data.isEqual(fi));
     }
+
+    public double getDiesVisualitzacio() {
+    }
+
+    public LocalDate getDataIniciActivitat() {
+    }
 }

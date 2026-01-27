@@ -24,8 +24,21 @@ public abstract class Activitat {
         this.inscrits = 0;
     }
 
+
     public String getNom() {
         return nom;
+    }
+
+    public String[] getCollectius() {
+        return collectius;
+    }
+
+    public LocalDate getDataIniciInscripcio() {
+        return dataIniciInscripcio;
+    }
+
+    public LocalDate getDataFiInscripcio() {
+        return dataFiInscripcio;
     }
 
     public int getCapacitat() {
@@ -35,6 +48,7 @@ public abstract class Activitat {
     public int getInscrits() {
         return inscrits;
     }
+
 
     public boolean estaEnPeriode(LocalDate data) {
         return (data.isEqual(dataIniciInscripcio) || data.isAfter(dataIniciInscripcio)) &&
@@ -66,5 +80,8 @@ public abstract class Activitat {
     @Override
     public String toString() {
         return nom + " (" + inscrits + "/" + capacitat + ")";
+    }
+
+    public String getResponsable() {
     }
 }

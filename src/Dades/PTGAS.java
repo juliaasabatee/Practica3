@@ -4,9 +4,8 @@ public class PTGAS extends Usuari {
 
     private String campusTreball;
 
-    public PTGAS(String alias, String correu,
-                 String campusTreball) {
-        super(alias, correu);
+    public PTGAS(String alies, String correu, String campusTreball) {
+        super(alies, correu);
         this.campusTreball = campusTreball;
     }
 

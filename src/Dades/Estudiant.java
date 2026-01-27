@@ -5,9 +5,8 @@ public class Estudiant extends Usuari {
     private String ensenyament;
     private int anyInici;
 
-    public Estudiant(String alias, String correu,
-                     String ensenyament, int anyInici) {
-        super(alias, correu);
+    public Estudiant(String alias, String correuInici, String ensenyament, int anyInici) {
+        super(alias, correuInici);
         this.ensenyament = ensenyament;
         this.anyInici = anyInici;
     }

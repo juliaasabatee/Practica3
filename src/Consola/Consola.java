@@ -1,13 +1,14 @@
 package Consola;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import Dades.*;
 import Excepcions.*;
+import GestioFitxers.LlistaActivitatsText;
 import InterficieGrafica.AppInterficieGrafica;
 import Llistes.*;
 
@@ -16,14 +17,20 @@ public class Consola {
     private static LocalDate dataAvui = LocalDate.now();
 
     public static void main(String[] args) {
-        Path p = Paths.get("activitats.txt");
-        LlistaActivitatsText.carregar(p);
 
         Scanner sc = new Scanner(System.in);
 
         LlistaUsuaris llistaUsuaris = new LlistaUsuaris();
         LlistaActivitats llistaActivitats = new LlistaActivitats();
         LlistaInscripcions llistaInscripcions = new LlistaInscripcions();
+
+        // carregar activitats des de fitxer
+        try {
+            Path fitxer = Paths.get("activitats.txt");
+            LlistaActivitatsText.carregar(llistaActivitats, fitxer);
+        } catch (Exception e) {
+            System.out.println("No s'han pogut carregar les activitats");
+        }
 
         int opcio;
 
@@ -60,9 +67,9 @@ public class Consola {
 
                     case 13 -> afegirActivitatPuntual(llistaActivitats, sc);
 
-                    case 14 -> afegirActivitatPeriodica(llistaActivitats, sc);
+                    case 14 -> System.out.println("Activitat periòdica no implementada");
 
-                    case 15 -> afegirActivitatOnline(llistaActivitats, sc);
+                    case 15 -> System.out.println("Activitat online no implementada");
 
                     case 16 -> valorarActivitat(llistaInscripcions, sc);
 
@@ -87,7 +94,6 @@ public class Consola {
         } while (opcio != 22);
 
         sc.close();
-
         new AppInterficieGrafica(llistaUsuaris).setVisible(true);
     }
 
@@ -153,8 +159,7 @@ public class Consola {
     }
 
     private static void inscriureUsuari(LlistaUsuaris lu, LlistaActivitats la,
-                                        LlistaInscripcions li, Scanner sc)
-            throws Exception {
+                                        LlistaInscripcions li, Scanner sc) throws Exception {
 
         System.out.print("Àlies: ");
         String alias = sc.nextLine();
@@ -164,15 +169,17 @@ public class Consola {
             System.out.print("Tipus (Estudiant/PDI/PTGAS): ");
             String t = sc.nextLine().toLowerCase();
             u = switch (t) {
-                case "estudiant" -> new Estudiant(alias, "mail");
-                case "pdi" -> new PDI(alias, "mail");
-                default -> new PTGAS(alias, "mail");
+                case "estudiant" -> new Estudiant(alias, "mail", "Informàtica", 2023);
+                case "pdi" -> new PDI(alias, "mail", "Dept.", "Campus");
+                default -> new PTGAS(alias, "mail", "Campus");
             };
             lu.afegirUsuari(u);
         }
 
         System.out.print("Activitat: ");
         Activitat a = la.cercarPerNom(sc.nextLine());
+        if (a == null) throw new Exception("Activitat no trobada");
+
         li.inscriure(u, a, dataAvui);
     }
 
@@ -199,16 +206,25 @@ public class Consola {
         LocalDate d = LocalDate.parse(sc.nextLine());
         System.out.print("Hora (HH:MM): ");
         LocalTime h = LocalTime.parse(sc.nextLine());
-        ActivitatPuntual ap = new ActivitatPuntual(nom, d, h, "Ciutat", 20, 0, 1, 20);
+
+        String[] collectius = {"Estudiant", "PDI", "PTGAS"};
+        LocalDate avui = dataAvui;
+
+        ActivitatPuntual ap = new ActivitatPuntual(
+                nom,
+                collectius,
+                avui.minusDays(5),   // inici inscripció
+                avui.plusDays(5),    // fi inscripció
+                20,                  // capacitat
+                d,                   // data activitat
+                h,                   // hora
+                "Ciutat",
+                20,
+                0.0
+        );
+
         la.afegirActivitat(ap);
-    }
 
-    private static void afegirActivitatPeriodica(LlistaActivitats la, Scanner sc) {
-        System.out.println("Afegida via constructor (simplificat)");
-    }
-
-    private static void afegirActivitatOnline(LlistaActivitats la, Scanner sc) {
-        System.out.println("Afegida via constructor (simplificat)");
     }
 
     private static void valorarActivitat(LlistaInscripcions li, Scanner sc)
@@ -246,5 +262,3 @@ public class Consola {
         System.out.println("Mitjana: " + lu.mitjanaPerCollectiu(c));
     }
 }
-}
-

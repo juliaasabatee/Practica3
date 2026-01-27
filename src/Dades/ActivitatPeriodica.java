@@ -3,8 +3,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Set;
 
-public class ActivitatPeriodica extends Activitat{
-    private Set<DayOfWeek> diesSetmana;
+public abstract class ActivitatPeriodica extends Activitat{
+    private Set<DayOfWeek> dies;
     private String diaSetmana;
     private String horari;
     private String dataInicial;
@@ -13,8 +13,14 @@ public class ActivitatPeriodica extends Activitat{
     private double preu;
     private String nomCentre;
     private String ciutat;
-    public ActivitatPeriodica(String nom, String diaSetmana, String horari, String dataInicial, int numSetmanes, int limitPlaces, double preu, String nomCentre, String ciutat, Set<DayOfWeek> dies) {
-        super(nom);
+    private double duracioHores;
+
+    public  ActivitatPeriodica(String nom, String[] collectius,
+                                       LocalDate dataIniciInscripcio,
+                                       LocalDate dataFiInscripcio,
+                                       int capacitat, String diaSetmana, String horari, String dataInicial, int numSetmanes, int limitPlaces, double preu, String nomCentre, String ciutat, Set<DayOfWeek> dies, double duracioHores) {
+
+        super(nom, collectius, dataIniciInscripcio, dataFiInscripcio, capacitat);
         this.diaSetmana = diaSetmana;
         this.horari = horari;
         this.dataInicial = dataInicial;
@@ -23,7 +29,7 @@ public class ActivitatPeriodica extends Activitat{
         this.preu = preu;
         this.nomCentre = nomCentre;
         this.ciutat = ciutat;
-        this.diesSetmana = dies;
+        this.dies = dies;
     }
     public String getDiaSetmana() {
         return this.diaSetmana;
@@ -49,6 +55,13 @@ public class ActivitatPeriodica extends Activitat{
     public String getCiutat() {
         return this.ciutat;
     }
+    public String getResponsable() {
+        return responsable;
+    }
+    public double getDuracioHores() {
+        return duracioHores;
+    }
+
     @Override
     public String toString() {
         return "ActivitatPeriodica (Nom: " + super.getNom() + ", Dia: " + diaSetmana + ", Horari: " + horari + ", Inici: " + dataInicial + ", Durada: " + numSetmanes + " setmanes, Places: " + limitPlaces + ", Preu: " + preu + "€, Centre: " + nomCentre + ", Ciutat: " + ciutat + ")";
@@ -56,7 +69,7 @@ public class ActivitatPeriodica extends Activitat{
     @Override
     public boolean hiHaClasseAvui(LocalDate data) {
         return estaEnPeriode(data) &&
-               diesSetmana.contains(data.getDayOfWeek());
+               dies.contains(data.getDayOfWeek());
     }
 }
 /* @author Júlia Sabaté */

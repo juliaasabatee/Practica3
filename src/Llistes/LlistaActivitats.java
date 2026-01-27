@@ -173,7 +173,7 @@ public class LlistaActivitats {
                         DayOfWeek diaEsperat = diaSetmanaToDayOfWeek(ap.getDiaSetmana());
                         if (diaEsperat != null && data.getDayOfWeek() == diaEsperat) {
                             double dur = parseDuracioFromHorari(ap.getHorari());
-                            String resp = a.getResponsable() == null ? "" : a.getResponsable();
+                            String resp = ((ActivitatPeriodica) a).getResponsable() == null ? "" : ((ActivitatPeriodica) a).getResponsable();
                             temp[c++] = new ActivitatDetall(a.getNom(), dur, resp);
                         }
                     }
