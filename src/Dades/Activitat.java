@@ -60,6 +60,21 @@ public abstract class Activitat {
     public void desinscriure() {
         if (inscrits > 0) inscrits--;
     }
+public String[] getCollectius() {
+    return collectius;
+}
+
+public LocalDate getDataIniciInscripcio() {
+    return dataIniciInscripcio;
+}
+
+public LocalDate getDataFiInscripcio() {
+    return dataFiInscripcio;
+}
+
+public String getResponsable() {
+    return responsable;
+}
 
     public abstract boolean hiHaClasseAvui(LocalDate data);
 
