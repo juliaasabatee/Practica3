@@ -58,7 +58,19 @@ public class LlistaActivitatsText {
         Activitat[] arr = llista.getAllActivitats();
         for (Activitat a : arr) {
             if (a instanceof ActivitatPuntual) {
-                ActivitatPuntual ap = (ActivitatPuntual) a;
+                ActivitatPuntual ap = new ActivitatPuntual(
+    nom,
+    collectius,
+    insIni,
+    insFi,
+    limit,
+    data,
+    hora,
+    ciutat,
+    limit,
+    preu
+);
+
                 String collectius = joinCollectius(ap.getCollectius());
                 String linea = String.join(";",
                         "PUNTUAL",
@@ -74,7 +86,23 @@ public class LlistaActivitatsText {
                 );
                 lineas.add(linea);
             } else if (a instanceof ActivitatPeriodica) {
-                ActivitatPeriodica ap = (ActivitatPeriodica) a;
+                ActivitatPeriodica ap = new ActivitatPeriodica(
+    nom,
+    collectius,
+    insIni,
+    insFi,
+    limit,
+    diaSetmana,
+    horari,
+    dataInicial,
+    numSetmanes,
+    limit,
+    preu,
+    nomCentre,
+    ciutat,
+    Set.of(DayOfWeek.MONDAY) // o el que toqui
+);
+
                 String collectius = joinCollectius(ap.getCollectius());
                 String linea = String.join(";",
                         "PERIODICA",
@@ -129,8 +157,6 @@ public class LlistaActivitatsText {
         String ciutat = p[9].trim();
 
         ActivitatPuntual ap = new ActivitatPuntual(nom, data, hora, ciutat, limit, preu);
-        ap.setCollectius(collectius);
-        ap.setDataIniciInscripcio(insIni);
         ap.setDataFiInscripcio(insFi);
         try {
             llista.afegirActivitat(ap);

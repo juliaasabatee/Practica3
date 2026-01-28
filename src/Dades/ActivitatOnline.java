@@ -21,6 +21,17 @@ public class ActivitatOnline extends Activitat {
         this.dataIniciActivitat = dataIniciActivitat;
         this.diesVisualitzacio = diesVisualitzacio;
     }
+public LocalDate getDataIniciActivitat() {
+    return dataIniciActivitat;
+}
+
+public int getDiesVisualitzacio() {
+    return diesVisualitzacio;
+}
+
+public String getResponsable() {
+    return responsable;
+}
 
     @Override
     public boolean hiHaClasseAvui(LocalDate data) {
