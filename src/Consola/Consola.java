@@ -246,5 +246,5 @@ public class Consola {
         System.out.println("Mitjana: " + lu.mitjanaPerCollectiu(c));
     }
 }
-}
+
 
