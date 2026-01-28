@@ -199,7 +199,7 @@ public class Consola {
         LocalDate d = LocalDate.parse(sc.nextLine());
         System.out.print("Hora (HH:MM): ");
         LocalTime h = LocalTime.parse(sc.nextLine());
-        ActivitatPuntual ap = new ActivitatPuntual(nom, d, h, "Ciutat", 20, 0, 1, 20);
+        ActivitatPuntual ap = ActivitatPuntual ap = new ActivitatPuntual(nom, new String[]{"Estudiant","PDI","PTGAS"}, dataAvui, dataAvui.plusDays(5), 20, d, h, "Ciutat", 20.0,  1.0);
         la.afegirActivitat(ap);
     }
 
