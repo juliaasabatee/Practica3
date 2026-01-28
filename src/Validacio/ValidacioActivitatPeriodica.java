@@ -2,32 +2,32 @@ package Validacio;
 
 import Dades.ActivitatPeriodica;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.Set;
+
 public class ValidacioActivitatPeriodica {
 
     public static void main(String[] args) {
 
         ActivitatPeriodica ap = new ActivitatPeriodica(
                 "Ioga",
-                "Dilluns",
-                "18:00",
-                "01/10/2025",
-                8,
+                new String[]{"Estudiant"},
+                LocalDate.of(2025, 9, 1),
+                LocalDate.of(2025, 9, 30),
                 20,
+                "dilluns",
+                "18:00-19:30",
+                "2025-10-01",
+                8,
+                7,
                 35.0,
                 "Centre Esportiu",
-                "Tarragona"
+                "Tarragona",
+                Set.of(DayOfWeek.MONDAY)
+
         );
 
-        System.out.println(ap.toString());
-        System.out.println("Nom: " + ap.getNom());
-        System.out.println("Dia setmana: " + ap.getDiaSetmana());
-        System.out.println("Horari: " + ap.getHorari());
-        System.out.println("Data inicial: " + ap.getDataInicial());
-        System.out.println("Nombre setmanes: " + ap.getNumSetmanes());
-        System.out.println("Límit places: " + ap.getLimitPlaces());
-        System.out.println("Preu: " + ap.getPreu());
-        System.out.println("Centre: " + ap.getNomCentre());
-        System.out.println("Ciutat: " + ap.getCiutat());
+        System.out.println(ap);
     }
 }
-/* @author Júlia Sabaté */

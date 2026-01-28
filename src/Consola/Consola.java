@@ -1,5 +1,6 @@
 package Consola;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
@@ -8,6 +9,7 @@ import java.nio.file.Paths;
 
 import Dades.*;
 import Excepcions.*;
+import GestioFitxers.LlistaActivitatsText;
 import InterficieGrafica.AppInterficieGrafica;
 import Llistes.*;
 
@@ -15,7 +17,7 @@ public class Consola {
 
     private static LocalDate dataAvui = LocalDate.now();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Path p = Paths.get("activitats.txt");
         LlistaActivitatsText.carregar(p);
 
@@ -164,9 +166,9 @@ public class Consola {
             System.out.print("Tipus (Estudiant/PDI/PTGAS): ");
             String t = sc.nextLine().toLowerCase();
             u = switch (t) {
-                case "estudiant" -> new Estudiant(alias, "mail");
-                case "pdi" -> new PDI(alias, "mail");
-                default -> new PTGAS(alias, "mail");
+                case "estudiant" -> new Estudiant(alias, "mail", "Informatica", 2023);
+                case "pdi" -> new PDI(alias, "mail", "Departament", "Campus");
+                default -> new PTGAS(alias, "mail", "Servei");
             };
             lu.afegirUsuari(u);
         }
@@ -199,7 +201,7 @@ public class Consola {
         LocalDate d = LocalDate.parse(sc.nextLine());
         System.out.print("Hora (HH:MM): ");
         LocalTime h = LocalTime.parse(sc.nextLine());
-        ActivitatPuntual ap = ActivitatPuntual ap = new ActivitatPuntual(nom, new String[]{"Estudiant","PDI","PTGAS"}, dataAvui, dataAvui.plusDays(5), 20, d, h, "Ciutat", 20.0,  1.0);
+        ActivitatPuntual ap =  new ActivitatPuntual(nom, new String[]{"Estudiant","PDI","PTGAS"}, dataAvui, dataAvui.plusDays(5), 20, d, h, "Ciutat", 20.0,  1.0);
         la.afegirActivitat(ap);
     }
 

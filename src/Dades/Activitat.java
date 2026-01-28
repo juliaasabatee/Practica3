@@ -74,21 +74,7 @@ public abstract class Activitat {
     public void desinscriure() {
         if (inscrits > 0) inscrits--;
     }
-public String[] getCollectius() {
-    return collectius;
-}
 
-public LocalDate getDataIniciInscripcio() {
-    return dataIniciInscripcio;
-}
-
-public LocalDate getDataFiInscripcio() {
-    return dataFiInscripcio;
-}
-
-public String getResponsable() {
-    return responsable;
-}
 
     public abstract boolean hiHaClasseAvui(LocalDate data);
 
@@ -98,5 +84,18 @@ public String getResponsable() {
     }
 
     public String getResponsable() {
+        return responsable;
     }
+    public void setCollectius(String[] collectius) {
+        this.collectius = collectius;
+    }
+
+    public void setDataIniciInscripcio(LocalDate dataIniciInscripcio) {
+        this.dataIniciInscripcio = dataIniciInscripcio;
+    }
+
+    public void setDataFiInscripcio(LocalDate dataFiInscripcio) {
+        this.dataFiInscripcio = dataFiInscripcio;
+    }
+
 }

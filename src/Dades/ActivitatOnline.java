@@ -40,9 +40,8 @@ public String getResponsable() {
                (data.isBefore(fi) || data.isEqual(fi));
     }
 
-    public double getDiesVisualitzacio() {
-    }
 
-    public LocalDate getDataIniciActivitat() {
+    public CharSequence getEnllac() {
+        return enllac;
     }
 }

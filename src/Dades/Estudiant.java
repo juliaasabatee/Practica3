@@ -15,4 +15,16 @@ public class Estudiant extends Usuari {
     public String getCollectiu() {
         return "Estudiant";
     }
+
+    public String getEnsenyament() {
+        return ensenyament;
+    }
+
+    public int getAnyInici() {
+        return anyInici;
+    }
+
+    public void setAnyInici(int i) {
+        this.anyInici= anyInici;
+    }
 }

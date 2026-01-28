@@ -16,23 +16,24 @@ public class ValidacioInscripcionsMario {
         LocalDate avui = LocalDate.of(2025, 10, 1);
 
         LlistaUsuaris usuaris = new LlistaUsuaris();
-        usuaris.afegirUsuari(new Estudiant("mario", "mario"));
-        usuaris.afegirUsuari(new Estudiant("pau", "pau"));
-        usuaris.afegirUsuari(new Estudiant("julia", "julia"));
+        usuaris.afegirUsuari(new Estudiant("mario", "mario", "Informatica", 2023));
+        usuaris.afegirUsuari(new Estudiant("pau", "pau", "Informatica", 2023));
+        usuaris.afegirUsuari(new Estudiant("julia", "julia", "Informatica", 2023));
+
 
         LlistaActivitats activitats = new LlistaActivitats(20);
         ActivitatPuntual a1 = new ActivitatPuntual(
                 "TallerJava",
+                new String[]{"Estudiant"},
+                LocalDate.of(2025, 9, 1),
+                LocalDate.of(2025, 10, 9),
+                2,
                 LocalDate.of(2025, 10, 10),
                 LocalTime.of(10, 0),
                 "Tarragona",
-                2,
+                120,
                 10.0
         );
-        a1.setCollectius(new String[]{"Estudiant"});
-        a1.setDataIniciInscripcio(LocalDate.of(2025, 9, 1));
-        a1.setDataFiInscripcio(LocalDate.of(2025, 10, 15));
-        activitats.afegirActivitat(a1);
 
         LlistaInscripcions llista = new LlistaInscripcions();
 

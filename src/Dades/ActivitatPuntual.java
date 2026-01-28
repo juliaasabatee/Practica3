@@ -20,15 +20,15 @@ public class ActivitatPuntual extends Activitat {
                             LocalDate data,
                             LocalTime horaInici,
                             String ciutat,
-                            int limitPlaces,
+                            double limitPlaces,
                             double preu) {
         super(nom, collectius, dataIniciInscripcio, dataFiInscripcio, capacitat);
         this.data = data;
         this.horaInici = horaInici;
         this.ciutat = ciutat;
-        this.limitPlaces = limitPlaces;
+        this.limitPlaces = (int) limitPlaces;
         this.preu = preu;
-        this.capacitat = limitPlaces;
+        this.capacitat = (int) limitPlaces;
         this.inscrits = 0;
     }
 
@@ -47,17 +47,6 @@ public class ActivitatPuntual extends Activitat {
     public double getPreu() {
         return preu;
     }
-public LocalDate getData() {
-    return data;
-}
-
-public double getDuracioHores() {
-    return duracioHores;
-}
-
-public int getLimitPlaces() {
-    return capacitat;
-}
 
 public String getResponsable() {
     return responsable;
@@ -69,8 +58,16 @@ public String getResponsable() {
     }
 
     public int getLimitPlaces() {
+        return limitPlaces;
     }
 
     public double getDuracioHores() {
+        return duracioHores;
     }
+
+    public LocalTime getHoraInici() {
+        return horaInici;
+    }
+
+
 }

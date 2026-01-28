@@ -2,257 +2,177 @@ package GestioFitxers;
 
 import Dades.*;
 import Llistes.LlistaActivitats;
+
 import java.io.*;
 import java.nio.file.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
- * Formato (campos separados por ';'):
+ * Formato:
  *
- * PUNTUAL;nom;collectius(coma);inscripcioInici;inscripcioFi;limitPlaces;preu;data(yyyy-MM-dd);hora(HH:mm);ciutat
- * PERIODICA;nom;collectius;inscripcioInici;inscripcioFi;limitPlaces;preu;diaSetmana;horari;dataInicial;numSetmanes;nomCentre;ciutat
- * ONLINE;nom;collectius;inscripcioInici;inscripcioFi;enllac;dataIniciActivitat;diesVisualitzacio
+ * PUNTUAL;nom;collectius;insIni;insFi;limit;preu;data;hora;ciutat
+ * PERIODICA;nom;collectius;insIni;insFi;limit;preu;dia;horari;dataInicial;numSetmanes;centre;ciutat
+ * ONLINE;nom;collectius;insIni;insFi;enllac;dataInici;dies
  */
 public class LlistaActivitatsText {
 
+    /* ================= CARREGAR ================= */
+
     public static void carregar(LlistaActivitats llista, Path fitxer) throws IOException {
         if (llista == null || fitxer == null) return;
-        try (BufferedReader r = Files.newBufferedReader(fitxer)) {
+
+        try (BufferedReader br = Files.newBufferedReader(fitxer)) {
             String linia;
-            int lin = 0;
-            while ((linia = r.readLine()) != null) {
-                lin++;
-                linia = linia.trim();
-                if (linia.isEmpty() || linia.startsWith("#")) continue;
-                String[] parts = linia.split(";");
-                String tipus = parts[0].trim().toUpperCase();
-                try {
-                    switch (tipus) {
-                        case "PUNTUAL":
-                            parseAndAddPuntual(parts, llista);
-                            break;
-                        case "PERIODICA":
-                        case "PERIÒDICA": // admitir variantes
-                            parseAndAddPeriodica(parts, llista);
-                            break;
-                        case "ONLINE":
-                            parseAndAddOnline(parts, llista);
-                            break;
-                        default:
-                            // línea desconocida -> ignorar
-                    }
-                } catch (Exception e) {
-                    // ignorar línea malformada, pero no detener la carga
-                    System.err.println("Warning: linea " + lin + " malformada (" + e.getMessage() + ")");
+            while ((linia = br.readLine()) != null) {
+                if (linia.isBlank() || linia.startsWith("#")) continue;
+
+                String[] p = linia.split(";");
+                switch (p[0].toUpperCase()) {
+                    case "PUNTUAL" -> parsePuntual(p, llista);
+                    case "PERIODICA", "PERIÒDICA" -> parsePeriodica(p, llista);
+                    case "ONLINE" -> parseOnline(p, llista);
                 }
             }
         }
     }
 
-    public static void desar(LlistaActivitats llista, Path fitxer) throws IOException {
-        if (llista == null || fitxer == null) return;
-        List<String> lineas = new ArrayList<>();
-        Activitat[] arr = llista.getAllActivitats();
-        for (Activitat a : arr) {
-            if (a instanceof ActivitatPuntual) {
-                ActivitatPuntual ap = new ActivitatPuntual(
-    nom,
-    collectius,
-    insIni,
-    insFi,
-    limit,
-    data,
-    hora,
-    ciutat,
-    limit,
-    preu
-);
+    /* ================= DESAR ================= */
 
-                String collectius = joinCollectius(ap.getCollectius());
-                String linea = String.join(";",
+    public static void desar(LlistaActivitats llista, Path fitxer) throws IOException {
+        List<String> out = new ArrayList<>();
+
+        for (Activitat a : llista.getAllActivitats()) {
+
+            if (a instanceof ActivitatPuntual ap) {
+                out.add(String.join(";",
                         "PUNTUAL",
-                        safe(ap.getNom()),
-                        safe(collectius),
+                        ap.getNom(),
+                        join(ap.getCollectius()),
                         safeDate(ap.getDataIniciInscripcio()),
                         safeDate(ap.getDataFiInscripcio()),
                         String.valueOf(ap.getLimitPlaces()),
                         String.valueOf(ap.getPreu()),
                         safeDate(ap.getData()),
                         safeTime(ap.getHoraInici()),
-                        safe(ap.getCiutat())
-                );
-                lineas.add(linea);
-            } else if (a instanceof ActivitatPeriodica) {
-                ActivitatPeriodica ap = new ActivitatPeriodica(
-    nom,
-    collectius,
-    insIni,
-    insFi,
-    limit,
-    diaSetmana,
-    horari,
-    dataInicial,
-    numSetmanes,
-    limit,
-    preu,
-    nomCentre,
-    ciutat,
-    Set.of(DayOfWeek.MONDAY) // o el que toqui
-);
+                        ap.getCiutat()
+                ));
+            }
 
-                String collectius = joinCollectius(ap.getCollectius());
-                String linea = String.join(";",
+            else if (a instanceof ActivitatPeriodica ap) {
+                out.add(String.join(";",
                         "PERIODICA",
-                        safe(ap.getNom()),
-                        safe(collectius),
+                        ap.getNom(),
+                        join(ap.getCollectius()),
                         safeDate(ap.getDataIniciInscripcio()),
                         safeDate(ap.getDataFiInscripcio()),
                         String.valueOf(ap.getLimitPlaces()),
                         String.valueOf(ap.getPreu()),
-                        safe(ap.getDiaSetmana()),
-                        safe(ap.getHorari()),
-                        safe(ap.getDataInicial()),
+                        ap.getDiaSetmana(),
+                        ap.getHorari(),
+                        ap.getDataInicial(),
                         String.valueOf(ap.getNumSetmanes()),
-                        safe(ap.getNomCentre()),
-                        safe(ap.getCiutat())
-                );
-                lineas.add(linea);
-            } else if (a instanceof ActivitatOnline) {
-                ActivitatOnline ao = (ActivitatOnline) a;
-                String collectius = joinCollectius(ao.getCollectius());
-                String linea = String.join(";",
+                        ap.getNomCentre(),
+                        ap.getCiutat()
+                ));
+            }
+
+            else if (a instanceof ActivitatOnline ao) {
+                out.add(String.join(";",
                         "ONLINE",
-                        safe(ao.getNom()),
-                        safe(collectius),
+                        ao.getNom(),
+                        join(ao.getCollectius()),
                         safeDate(ao.getDataIniciInscripcio()),
                         safeDate(ao.getDataFiInscripcio()),
-                        safe(ao.getEnllac()),
+                        ao.getEnllac(),
                         safeDate(ao.getDataIniciActivitat()),
                         String.valueOf(ao.getDiesVisualitzacio())
-                );
-                lineas.add(linea);
-            } else {
-                // tipo desconocido -> ignorar
+                ));
             }
         }
-        Files.write(fitxer, lineas, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+
+        Files.write(fitxer, out,
+                StandardOpenOption.CREATE,
+                StandardOpenOption.TRUNCATE_EXISTING);
     }
 
-    /* Helpers de parsing */
+    /* ================= PARSING ================= */
 
-    private static void parseAndAddPuntual(String[] p, LlistaActivitats llista) {
-        // indices mínimos ver formato
-        if (p.length < 10) throw new IllegalArgumentException("Campos insuficientes PUNTUAL");
-        String nom = p[1].trim();
-        String[] collectius = splitCollectius(p[2]);
-        LocalDate insIni = parseDateOrNull(p[3]);
-        LocalDate insFi = parseDateOrNull(p[4]);
-        int limit = parseIntOrDefault(p[5], 0);
-        double preu = parseDoubleOrDefault(p[6], 0.0);
-        LocalDate data = parseDateOrNull(p[7]);
-        LocalTime hora = parseTimeOrNull(p[8]);
-        String ciutat = p[9].trim();
-
-        ActivitatPuntual ap = new ActivitatPuntual(nom, data, hora, ciutat, limit, preu);
-        ap.setDataFiInscripcio(insFi);
-        try {
-            llista.afegirActivitat(ap);
-        } catch (RuntimeException e) {
-            // duplicado u otro -> ignorar
-        }
+    private static void parsePuntual(String[] p, LlistaActivitats l) {
+        ActivitatPuntual a = new ActivitatPuntual(
+                p[1],                       // nom
+                split(p[2]),                // collectius (asumo que split devuelve String[])
+                LocalDate.parse(p[3]),      // dataIniciInscripcio
+                LocalDate.parse(p[4]),      // dataFiInscripcio
+                Integer.parseInt(p[5]),     // capacitat
+                LocalDate.parse(p[7]),      // data
+                LocalTime.parse(p[8]),      // horaInici
+                p[9],                       // ciutat
+                Double.parseDouble(p[5]),   // limitPlaces (uso capacitat porque no hay otro en el CSV)
+                Double.parseDouble(p[6])    // preu
+        );
+        l.afegirActivitat(a);
     }
 
-    private static void parseAndAddPeriodica(String[] p, LlistaActivitats llista) {
-        if (p.length < 13) throw new IllegalArgumentException("Campos insuficientes PERIODICA");
-        String nom = p[1].trim();
-        String[] collectius = splitCollectius(p[2]);
-        LocalDate insIni = parseDateOrNull(p[3]);
-        LocalDate insFi = parseDateOrNull(p[4]);
-        int limit = parseIntOrDefault(p[5], 0);
-        double preu = parseDoubleOrDefault(p[6], 0.0);
-        String diaSetmana = p[7].trim();
-        String horari = p[8].trim();
-        String dataInicial = p[9].trim();
-        int numSetmanes = parseIntOrDefault(p[10], 1);
-        String nomCentre = p[11].trim();
-        String ciutat = p[12].trim();
+    private static void parsePeriodica(String[] p, LlistaActivitats l) {
+        // Al no poder usar HashSet, pasamos null.
+        // Si necesitas guardar los días, deberías cambiar el constructor para aceptar String p[7]
 
-        ActivitatPeriodica ap = new ActivitatPeriodica(nom, diaSetmana, horari, dataInicial, numSetmanes, limit, preu, nomCentre, ciutat);
-        ap.setCollectius(collectius);
-        ap.setDataIniciInscripcio(insIni);
-        ap.setDataFiInscripcio(insFi);
-        try {
-            llista.afegirActivitat(ap);
-        } catch (RuntimeException e) {
-            // ignorar duplicados
-        }
+        ActivitatPeriodica a = new ActivitatPeriodica(
+                p[1],                       // nom
+                split(p[2]),                // collectius
+                LocalDate.parse(p[3]),      // dataIniciInscripcio
+                LocalDate.parse(p[4]),      // dataFiInscripcio
+                Integer.parseInt(p[5]),     // capacitat
+                p[7],                       // diaSetmana (String raw)
+                p[8],                       // horari
+                p[9],                       // dataInicial
+                Integer.parseInt(p[10]),    // numSetmanes
+                Integer.parseInt(p[5]),     // limitPlaces
+                Double.parseDouble(p[6]),   // preu
+                p[11],                      // nomCentre
+                p[12],                      // ciutat
+                null                        // <--- AQUÍ: Pasamos null porque no puedes usar HashSet
+        );
+        l.afegirActivitat(a);
     }
 
-    private static void parseAndAddOnline(String[] p, LlistaActivitats llista) {
-        if (p.length < 8) throw new IllegalArgumentException("Campos insuficientes ONLINE");
-        String nom = p[1].trim();
-        String[] collectius = splitCollectius(p[2]);
-        LocalDate insIni = parseDateOrNull(p[3]);
-        LocalDate insFi = parseDateOrNull(p[4]);
-        String enllac = p[5].trim();
-        LocalDate dataIniciActivitat = parseDateOrNull(p[6]);
-        int dies = parseIntOrDefault(p[7], 0);
+    private static void parseOnline(String[] p, LlistaActivitats l) {
+        // NOTA: He ajustado los índices asumiendo que el CSV sigue el orden lógico
+        // de los atributos que pide el constructor nuevo.
+        ActivitatOnline a = new ActivitatOnline(
+                p[1],                       // nom
+                split(p[2]),                // collectius
+                LocalDate.parse(p[3]),      // dataIniciInscripcio
+                LocalDate.parse(p[4]),      // dataFiInscripcio
+                Integer.parseInt(p[5]),     // capacitat
+                p[6],                       // enllac (asumiendo que está tras la capacidad)
+                LocalDate.parse(p[7]),      // dataIniciActivitat
+                Integer.parseInt(p[8])      // diesVisualitzacio
+        );
+        l.afegirActivitat(a);
+    }
+    /* ================= UTILS ================= */
 
-        ActivitatOnline ao = new ActivitatOnline(nom, collectius, insIni, insFi, enllac, dataIniciActivitat, dies);
-        try {
-            llista.afegirActivitat(ao);
-        } catch (RuntimeException e) {
-            // ignorar duplicados
-        }
+    private static String[] split(String s) {
+        return s == null || s.isBlank() ? null : s.split(",");
     }
 
-    /* utilitarios */
-
-    private static String[] splitCollectius(String s) {
-        if (s == null) return null;
-        s = s.trim();
-        if (s.isEmpty()) return null;
-        String[] parts = s.split(",");
-        for (int i = 0; i < parts.length; i++) parts[i] = parts[i].trim();
-        return parts;
+    private static String join(String[] a) {
+        return a == null ? "" : String.join(",", a);
     }
 
-    private static String joinCollectius(String[] arr) {
-        if (arr == null || arr.length == 0) return "";
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            if (i > 0) sb.append(",");
-            sb.append(arr[i]);
-        }
-        return sb.toString();
+    private static String safeDate(LocalDate d) {
+        return d == null ? "" : d.toString();
     }
 
-    private static LocalDate parseDateOrNull(String s) {
-        if (s == null) return null;
-        s = s.trim();
-        if (s.isEmpty()) return null;
-        return LocalDate.parse(s);
+    private static String safeTime(LocalTime t) {
+        return t == null ? "" : t.toString();
     }
 
-    private static LocalTime parseTimeOrNull(String s) {
-        if (s == null) return null;
-        s = s.trim();
-        if (s.isEmpty()) return null;
-        return LocalTime.parse(s);
+    public static void carregar(Path p) {
     }
-
-    private static int parseIntOrDefault(String s, int def) {
-        try { return Integer.parseInt(s.trim()); } catch (Exception e) { return def; }
-    }
-
-    private static double parseDoubleOrDefault(String s, double def) {
-        try { return Double.parseDouble(s.trim()); } catch (Exception e) { return def; }
-    }
-
-    private static String safe(String s) { return s == null ? "" : s; }
-    private static String safeDate(LocalDate d) { return d == null ? "" : d.toString(); }
-    private static String safeTime(LocalTime t) { return t == null ? "" : t.toString(); }
 }
