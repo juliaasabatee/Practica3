@@ -13,18 +13,28 @@ public class ActivitatPeriodica extends Activitat{
     private double preu;
     private String nomCentre;
     private String ciutat;
-    public ActivitatPeriodica(String nom, String diaSetmana, String horari, String dataInicial, int numSetmanes, int limitPlaces, double preu, String nomCentre, String ciutat, Set<DayOfWeek> dies) {
-        super(nom);
-        this.diaSetmana = diaSetmana;
-        this.horari = horari;
-        this.dataInicial = dataInicial;
-        this.numSetmanes = numSetmanes;
-        this.limitPlaces = limitPlaces;
-        this.preu = preu;
-        this.nomCentre = nomCentre;
-        this.ciutat = ciutat;
-        this.diesSetmana = dies;
-    }
+   public ActivitatPeriodica(String nom, String[] collectius,
+                          LocalDate dataIniciInscripcio,
+                          LocalDate dataFiInscripcio,
+                          int capacitat,
+                          String diaSetmana, String horari,
+                          String dataInicial, int numSetmanes,
+                          int limitPlaces, double preu,
+                          String nomCentre, String ciutat,
+                          Set<DayOfWeek> dies) {
+
+    super(nom, collectius, dataIniciInscripcio, dataFiInscripcio, capacitat);
+    this.diaSetmana = diaSetmana;
+    this.horari = horari;
+    this.dataInicial = dataInicial;
+    this.numSetmanes = numSetmanes;
+    this.limitPlaces = limitPlaces;
+    this.preu = preu;
+    this.nomCentre = nomCentre;
+    this.ciutat = ciutat;
+    this.diesSetmana = dies;
+}
+
     public String getDiaSetmana() {
         return this.diaSetmana;
     }
