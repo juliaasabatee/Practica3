@@ -29,6 +29,21 @@ public class ActivitatPuntual extends Activitat {
         this.preu = preu;
         this.duracioHores = duracioHores;
     }
+public LocalDate getData() {
+    return data;
+}
+
+public double getDuracioHores() {
+    return duracioHores;
+}
+
+public int getLimitPlaces() {
+    return capacitat;
+}
+
+public String getResponsable() {
+    return responsable;
+}
 
     @Override
     public boolean hiHaClasseAvui(LocalDate dataAvui) {
