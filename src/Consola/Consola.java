@@ -18,8 +18,19 @@ public class Consola {
     private static LocalDate dataAvui = LocalDate.now();
 
     public static void main(String[] args) throws IOException {
-        Path p = Paths.get("activitats.txt");
-        LlistaActivitatsText.carregar(p);
+    
+
+LlistaUsuaris usuaris = new LlistaUsuaris();
+LlistaActivitats activitats = new LlistaActivitats(50);
+LlistaInscripcions inscripcions = new LlistaInscripcions();
+
+// carregar fitxers
+try {
+    LlistaActvivitatsText.carregar(activitats, Path.of("consola/activitats.txt"));
+    LlistaUsuarisText.carregar(usuaris, Path.of("consola/usuaris.txt"));
+} catch (IOException e) {
+    System.out.println("Error carregant fitxers");
+}
 
         Scanner sc = new Scanner(System.in);
 
